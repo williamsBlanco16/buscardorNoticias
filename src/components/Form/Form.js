@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import useSelect from '../../hooks/useSelect'
+import PropTypes from 'prop-types';
 
 import styles from './Form.module.css'
 
-const Form = () => {
+const Form = ({saveCategory}) => {
   const OPCIONES = [
     {value: 'general', label: 'General'},
     {value: 'business', label: 'Negocios'},
@@ -14,10 +15,15 @@ const Form = () => {
   ]
 
   const [category, SelectNews] = useSelect('general',OPCIONES)
+
+  const handlerSubmit = e => {
+    e.preventDefault()
+    saveCategory(category)
+  }
   return (
     <div className={`${styles.buscador} row`}>
       <div className="col s12 m8 offset-m2">
-        <form>
+        <form onSubmit={handlerSubmit}>
           <h2 className={styles.heading}>Encuentra noticias por categoria</h2>
           <SelectNews/>
           <div className="input-field col s12">
@@ -32,6 +38,10 @@ const Form = () => {
       
     </div>
   );
+}
+
+Form.propTypes = {
+  saveCategory: PropTypes.func.isRequired
 }
 
 export default Form;
